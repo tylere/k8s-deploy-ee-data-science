@@ -1,0 +1,49 @@
+# Kubernetes deployment configuration file for deploying a Jupyter Web Server
+# with access to the Earth Engine API.
+#
+# References:
+#   http://kubernetes.io/docs/user-guide/deploying-applications
+#   http://kubernetes.io/docs/user-guide/deployments/
+#   http://kubernetes.io/docs/api-reference/v1/definitions
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: test-tyler-container
+  labels:
+    run: test-tyler-container
+spec:
+  template:
+    metadata:
+      labels:
+        run: test-tyler-container
+    spec:
+      containers:
+      - env:
+        - name: PASSWORD
+          # CHANGE THE PASSWORD!
+          value: {PASSWORD}
+        image: tylere/docker-ee-datascience-notebook
+        name: test-tyler-container
+        ports:
+        # Set the port used to access the applications.
+        - containerPort: 8888
+          protocol: TCP
+        volumeMounts:
+        # Mount a volume for persisting files in the user's working directory.
+        - mountPath: /home/jovyan/work
+          name: file-storage-volume
+        # Mount a volume for persisting the Earth Engine credentials file.
+        - mountPath: /home/jovyan/.config/earthengine
+          name: credentials-storage-volume
+      securityContext:
+          fsGroup: 1000
+      volumes:
+      - name: file-storage-volume
+        gcePersistentDisk:
+          fsType: ext4
+          pdName: test-tyler-disk
+      - name: credentials-storage-volume
+        gcePersistentDisk:
+          fsType: ext4
+          pdName: test-tyler-credentials
+

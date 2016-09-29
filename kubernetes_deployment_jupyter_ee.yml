@@ -8,22 +8,21 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: test-tyler-container
+  name: $(CONTAINER_NAME)
   labels:
-    run: test-tyler-container
+    run: $(CONTAINER_NAME)
 spec:
   template:
     metadata:
       labels:
-        run: test-tyler-container
+        run: $(CONTAINER_NAME)
     spec:
       containers:
       - env:
         - name: PASSWORD
-          # CHANGE THE PASSWORD!
-          value: {PASSWORD}
-        image: tylere/docker-ee-datascience-notebook
-        name: test-tyler-container
+          value: $(JUPYTER_PASSWORD)
+        image: $(CONTAINER_IMAGE)
+        name: $(CONTAINER_NAME)
         ports:
         # Set the port used to access the applications.
         - containerPort: 8888
@@ -41,9 +40,9 @@ spec:
       - name: file-storage-volume
         gcePersistentDisk:
           fsType: ext4
-          pdName: test-tyler-disk
+          pdName: $(FILE_STORAGE_DISK_NAME)
       - name: credentials-storage-volume
         gcePersistentDisk:
           fsType: ext4
-          pdName: test-tyler-credentials
+          pdName: $(CREDENTIALS_DISK_NAME)
 

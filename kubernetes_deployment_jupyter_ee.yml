@@ -8,7 +8,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: $(CONTAINER_NAME)
+  name: $(METADATA_NAME)
   labels:
     run: $(CONTAINER_NAME)
 spec:
@@ -22,7 +22,7 @@ spec:
         - name: PASSWORD
           value: $(JUPYTER_PASSWORD)
         image: $(CONTAINER_IMAGE)
-        name: $(CONTAINER_NAME)
+        name: jupyter-ee-container
         ports:
         # Set the port used to access the applications.
         - containerPort: 8888

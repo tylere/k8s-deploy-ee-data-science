@@ -8,20 +8,20 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: $(METADATA_NAME)
+  name: jupyter-notebook-ee
   labels:
-    run: $(CONTAINER_NAME)
+    run: jupyter-notebook-ee-container
 spec:
   template:
     metadata:
       labels:
-        run: $(CONTAINER_NAME)
+        run: jupyter-notebook-ee-container
     spec:
       containers:
       - env:
         - name: PASSWORD
-          value: $(JUPYTER_PASSWORD)
-        image: $(CONTAINER_IMAGE)
+          value: CHANGE_ME
+        image: tylere/docker-ee-datascience-notebook
         name: jupyter-ee-container
         ports:
         # Set the port used to access the applications.
@@ -40,9 +40,9 @@ spec:
       - name: file-storage-volume
         gcePersistentDisk:
           fsType: ext4
-          pdName: $(FILE_STORAGE_DISK_NAME)
+          pdName: jupyter-notebook-ee-file-storage-disk
       - name: credentials-storage-volume
         gcePersistentDisk:
           fsType: ext4
-          pdName: $(CREDENTIALS_DISK_NAME)
+          pdName: jupyter-notebook-ee-credentials-disk
 

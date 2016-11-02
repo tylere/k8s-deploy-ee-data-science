@@ -9,8 +9,6 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: jupyter-notebook-ee
-  labels:
-    run: jupyter-notebook-ee-container
 spec:
   template:
     metadata:

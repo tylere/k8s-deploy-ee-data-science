@@ -18,7 +18,10 @@ spec:
       containers:
       - env:
         - name: PASSWORD
-          value: CHANGE_ME
+          valueFrom:
+            secretKeyRef:
+              name: jupyter-password
+              key: password
         image: tylere/docker-ee-datascience-notebook
         name: jupyter-ee-container
         ports:
